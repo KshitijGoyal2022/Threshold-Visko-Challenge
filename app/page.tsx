@@ -53,20 +53,12 @@ export default function Home() {
                 <small>{item.rungs.length} steps</small>
               </button>
             ))}
-            <button className="choice" disabled>
-              <span>Heights</span>
-              <small>Coming soon</small>
-            </button>
-            <button className="choice" disabled>
-              <span>Flying</span>
-              <small>Coming soon</small>
-            </button>
           </div>
         </div>
 
         {ladder.rooms.length > 1 && (
         <div className="field">
-          <span className="field-label">Where are you speaking?</span>
+          <span className="field-label">Where are we?</span>
           <div className="choice-grid">
             {ladder.rooms.map((room) => (
               <button

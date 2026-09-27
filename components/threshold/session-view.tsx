@@ -131,7 +131,7 @@ export function SessionView({ ladder, roomId, live, anchorUrl, code = null, clea
             </div>
           ) : !live && running ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={mockFrameFor(session.rung, false)} alt="" />
+            <img src={mockFrameFor(ladder.id, session.rung, false)} alt="" />
           ) : null}
 
           {session.phase === "idle" && (

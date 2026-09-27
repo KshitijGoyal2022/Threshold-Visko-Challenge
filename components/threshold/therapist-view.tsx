@@ -158,7 +158,7 @@ export function TherapistView({ ladder, code }: { ladder: Ladder; code: string }
             <img src={frame} alt="" />
           ) : !stream && running ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={mockFrameFor(state?.rung ?? 0, false)} alt="" />
+            <img src={mockFrameFor(ladder.id, state?.rung ?? 0, false)} alt="" />
           ) : null}
           {!state && (
             <div className="frame-placeholder">
