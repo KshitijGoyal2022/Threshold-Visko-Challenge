@@ -29,7 +29,7 @@ export function useOrbisSession(
   const [availableResolutions, setAvailableResolutions] = useState<string[]>(
     DOCUMENTED_RESOLUTIONS,
   );
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [nanoBusy, setNanoBusy] = useState(false);
   const [runStarted, setRunStarted] = useState(false);
@@ -310,6 +310,11 @@ export function useOrbisSession(
 
   const startRun = () => runAction(() => startGeneration(image, prompt));
 
+  const startWithPrompt = (runPrompt: string, startImage: File | null = image) => {
+    setPrompt(runPrompt);
+    return runAction(() => startGeneration(startImage, runPrompt));
+  };
+
   const startFromNanoOutput = async (
     editedImage: File,
     groundedPrompt: string,
@@ -377,6 +382,7 @@ export function useOrbisSession(
     selectImage,
     setResolution,
     startRun,
+    startWithPrompt,
     startFromNanoOutput,
     setNanoBusy,
     steer,
