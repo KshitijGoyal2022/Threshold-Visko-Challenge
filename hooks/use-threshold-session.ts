@@ -4,7 +4,7 @@ import { useReactor } from "@reactor-team/js-sdk";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useOrbisSession } from "@/hooks/use-orbis-session";
-import { planJump } from "@/lib/threshold/director";
+import { planJump, planSafe } from "@/lib/threshold/director";
 import {
   createState,
   decide,
@@ -182,9 +182,10 @@ export function useThresholdSession({
   }, [append, ladder, live, orbis, startRun]);
 
   const safePlace = useCallback(() => {
+    const move = planSafe(ladder, engine.current.rung);
     engine.current = enterSafePlace(engine.current, elapsed());
-    append(`Safe place — "${ladder.safePlace.action}"`);
-    void send(ladder.safePlace.action);
+    append(`Safe place — "${move.prompt}"`);
+    void send(move.prompt, move.audio);
     setNote(describe(engine.current, latestSuds.current, elapsed()));
   }, [append, ladder, send]);
 
@@ -255,6 +256,14 @@ export function useThresholdSession({
     },
     [evaluate, phase],
   );
+
+  // The stream can end on its own (session cap, network). End the session
+  // so the report shows instead of prompts going nowhere.
+  useEffect(() => {
+    if (!live || phase !== "running" || orbis.status !== "disconnected") return;
+    append("The stream ended.");
+    setPhase("ended");
+  }, [append, live, orbis.status, phase]);
 
   // Dwell and cooldown rules need to fire even when the slider is untouched.
   useEffect(() => {

@@ -9,3 +9,6 @@ npm-debug.log*
 # Playwright MCP screenshots and snapshots
 .playwright-mcp/
 audio-sample-*.webm
+
+# Devpost writeup, kept local
+SUBMISSION.md

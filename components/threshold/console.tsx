@@ -125,34 +125,34 @@ export function Console({
       </section>
 
       <section className="rail-section">
-        <h3>Direct</h3>
-        <div className="controls-row">
-          <button disabled={!running} onClick={actions.stepDown}>
-            Easier
-          </button>
-          <button disabled={!running} onClick={actions.safePlace}>
-            Safe
-          </button>
-          <button disabled={!running} onClick={actions.stepUp}>
-            Harder
-          </button>
-        </div>
-        <button className="ghost wide" disabled={!running} onClick={actions.disrupt}>
+        <h3>Interrupt</h3>
+        <button className="wide" disabled={!running} onClick={actions.disrupt}>
           Throw an interruption
         </button>
-        <button
-          className="ghost wide"
-          disabled={!running}
-          title="A camera move is a valid single action; this asks for the wide shot back without restarting."
-          onClick={() => void actions.direct(PULL_BACK)}
-        >
-          Pull the camera back
-        </button>
-        {state.anchored && (
-          <button className="ghost wide" disabled={!running} onClick={actions.restart}>
-            Restart from the photo (faces will change)
+      </section>
+
+      <section className="rail-section">
+        <h3>If the picture drifts</h3>
+        <div className="controls-row two">
+          <button
+            className="ghost"
+            disabled={!running}
+            title="Asks for the wide shot back without restarting. Same people, same room."
+            onClick={() => void actions.direct(PULL_BACK)}
+          >
+            Pull back
           </button>
-        )}
+          {state.anchored && (
+            <button
+              className="ghost"
+              disabled={!running}
+              title="Starts the scene again from its anchor frame. The people will look different."
+              onClick={actions.restart}
+            >
+              Restart scene
+            </button>
+          )}
+        </div>
       </section>
 
       <section className="rail-section">

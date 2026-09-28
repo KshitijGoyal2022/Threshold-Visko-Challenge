@@ -13,3 +13,11 @@ export function planJump(ladder: Ladder, from: number, to: number): Move {
   const prefix = to < from && current.calm ? `${current.calm} ` : "";
   return { prompt: `${prefix}${target.action}`, audio: target.audio };
 }
+
+/** The safe place: how the current rung ends, then the calm scene, so what
+ *  stepped into the frame steps out again before the lights come up. */
+export function planSafe(ladder: Ladder, from: number): Move {
+  const current = ladder.rungs[from];
+  const prefix = current.calm ? `${current.calm} ` : "";
+  return { prompt: `${prefix}${ladder.safePlace.action}`, audio: undefined };
+}

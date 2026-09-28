@@ -1,13 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { LADDERS } from "@/lib/threshold/ladders";
 import { newCode } from "@/lib/threshold/protocol";
 
 export default function Home() {
-  const router = useRouter();
   const [fearId, setFearId] = useState(LADDERS[0].id);
   const ladder = LADDERS.find((item) => item.id === fearId) ?? LADDERS[0];
   const [roomId, setRoomId] = useState(ladder.rooms[0].id);
@@ -41,16 +39,18 @@ export default function Home() {
       <section className="intake-form">
         <div className="field">
           <span className="field-label">What are we working on?</span>
-          <div className="choice-grid">
+          <div className="choice-list" role="radiogroup" aria-label="Fear">
             {LADDERS.map((item) => (
               <button
                 key={item.id}
-                className="choice"
+                className="choice choice-row"
+                role="radio"
+                aria-checked={item.id === fearId}
                 aria-pressed={item.id === fearId}
                 onClick={() => setFearId(item.id)}
               >
-                <span>{item.title}</span>
-                <small>{item.rungs.length} steps</small>
+                <span className="choice-title">{item.title}</span>
+                <small className="choice-scene">{item.rooms[0].label}</small>
               </button>
             ))}
           </div>
@@ -80,10 +80,6 @@ export default function Home() {
             <button className="primary" onClick={() => setCode(newCode())}>
               Create a session
             </button>
-            <button className="ghost" onClick={() => router.push(`/session?${query}&live=0`)}>
-              Preview without streaming
-            </button>
-            <span className="hint">Live sessions use Orbis credits.</span>
           </div>
         ) : (
           <div className="field">

@@ -176,6 +176,29 @@ button:disabled {
   border-radius: var(--radius);
 }
 
+.choice-list {
+  display: grid;
+  gap: 6px;
+}
+
+.choice-row {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "title"
+    "scene";
+  align-items: center;
+  gap: 2px 16px;
+  padding: 12px 14px;
+}
+
+.choice-row .choice-title {
+  grid-area: title;
+}
+
+.choice-row .choice-scene {
+  grid-area: scene;
+}
+
 .choice[aria-pressed="true"] {
   border-color: var(--state-color);
   background: var(--state-soft);
@@ -215,11 +238,6 @@ button:disabled {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.intake-actions .hint {
-  color: var(--fg-3);
-  font-size: 12px;
 }
 
 /* Session ------------------------------------------------------------ */
@@ -575,6 +593,10 @@ button:disabled {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
+}
+
+.controls-row.two {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .toggle {

@@ -74,6 +74,11 @@ export const PUBLIC_SPEAKING: Ladder = {
         "From the lectern on a stage, an audience fills the tiered seats of a dark auditorium, lit by the glow from the stage",
     },
   ],
+  // Tested live: anything about where the audience is LOOKING ("turns
+  // forward", "stares", "glares") makes the model invent a speaker at the
+  // lectern, and anything about the stage or its lights swings the camera
+  // round to face the stage. Every rung here is a crowd doing something
+  // physical, with no target named.
   rungs: [
     {
       level: 0,
@@ -85,37 +90,21 @@ export const PUBLIC_SPEAKING: Ladder = {
     {
       level: 1,
       label: "All eyes on you",
-      summary: "Silence. Every face turns to you.",
-      action: "The audience falls silent and every face turns forward to stare.",
-      state: "sitting in silence, staring forward",
+      summary: "Every phone goes down at once. Silence.",
+      action: "The whole audience puts their phones down at the same moment and goes silent and still.",
+      state: "sitting silent and still, phones down",
     },
     {
       level: 2,
-      label: "They are judging",
-      summary: "Frowns. Whispering behind hands.",
-      action: "People in the middle rows frown and whisper to each other.",
+      label: "They whisper",
+      summary: "Heads lean together. Whispering behind hands. Heads shake.",
+      action:
+        "People all over the audience lean to their neighbours, whispering behind their hands and shaking their heads.",
       calm: "The whispering stops.",
-      state: "frowning and whispering to each other",
+      state: "leaning together, whispering behind their hands and shaking their heads",
     },
     {
       level: 3,
-      label: "They are bored",
-      summary: "Arms crossed. A yawn. Someone checks the time.",
-      action: "Across the rows people yawn, cross their arms and check their watches.",
-      state: "yawning, arms crossed, checking their watches",
-    },
-    {
-      level: 4,
-      label: "Under the lights",
-      summary: "The stage lights swing onto you. The hall goes black.",
-      action:
-        "Bright stage lights swing forward, white glare floods the foreground and the audience falls into darkness.",
-      calm: "The stage lights dim back to normal.",
-      audio: "The electric buzz of stage lights in a silent hall.",
-      state: "in darkness while bright stage lights flood the foreground with white glare",
-    },
-    {
-      level: 5,
       label: "Being filmed",
       summary: "Phones come up. The room is recording you.",
       action: "The audience raises their phones and films, faces lit by the screens.",
@@ -123,7 +112,7 @@ export const PUBLIC_SPEAKING: Ladder = {
       state: "holding up phones, filming",
     },
     {
-      level: 6,
+      level: 4,
       label: "They laugh",
       summary: "Laughter spreads. Heads shake.",
       action: "The audience bursts out laughing, shaking their heads.",
@@ -132,22 +121,31 @@ export const PUBLIC_SPEAKING: Ladder = {
       state: "laughing and shaking their heads",
     },
     {
-      level: 7,
+      level: 5,
+      label: "They boo",
+      summary: "Booing. Arms waving. Fists in the air.",
+      action: "The audience boos, waving their arms and shaking their fists.",
+      calm: "The booing dies down and the arms come down.",
+      audio: "A large crowd booing and jeering in a hall.",
+      state: "booing, waving their arms and shaking their fists",
+    },
+    {
+      level: 6,
       label: "They walk out",
       summary: "People stand up and leave.",
       action: "Several people in the back rows stand up, gather their coats and climb the steps out of the hall.",
       calm: "The people who stood up sit back down.",
       audio: "Seats flipping up and footsteps on hard steps.",
-      state: "staring forward while several people in the back rows climb the steps out of the hall",
+      state: "several people in the back rows climbing the steps out of the hall",
     },
     {
-      level: 8,
+      level: 7,
       label: "The heckler",
       summary: "A man stands up and shouts at you.",
       action: "A man in the middle rows stands up, points forward and shouts.",
       calm: "The man sits back down.",
       audio: "A man's angry voice shouting in a silent hall.",
-      state: "staring at a man in the middle rows who stands, pointing forward and shouting",
+      state: "a man in the middle rows standing, pointing forward and shouting",
     },
   ],
   safePlace: {
@@ -207,6 +205,10 @@ export const HEIGHTS: Ladder = {
   // The fear is already in the opening picture. Each rung is one change of
   // VIEW toward the drop (what ends up in frame, never a body movement) or one
   // thing that happens at the edge. Calm is the view coming back up.
+  // Tested live: the beam is the one change that always shows. Weather,
+  // bending steel and crumbling concrete never rendered, and after five or
+  // six prompts the view wanders, so the ladder stays short and the biggest
+  // move comes early.
   rungs: [
     {
       level: 0,
@@ -225,28 +227,28 @@ export const HEIGHTS: Ladder = {
     },
     {
       level: 2,
-      label: "Straight down",
-      summary: "Only the street, hundreds of feet below.",
-      action: "The view tilts straight down past the edge until only the street far below, with its tiny cars, fills the frame.",
-      calm: "The view tilts back up to the edge and the skyline.",
-      state: "tilted straight down past the edge, only the street far below filling the frame",
-    },
-    {
-      level: 3,
-      label: "The wind",
-      summary: "A hard gust. Grit skitters over the edge and falls.",
-      action: "A hard gust blows across the roof and loose grit skitters over the edge and falls away.",
-      calm: "The wind dies down.",
-      audio: "A hard gust of wind on a high rooftop, grit scattering.",
-      state: "tilted down over the edge, wind blowing grit off the roof into the drop",
-    },
-    {
-      level: 4,
       label: "Out on the beam",
       summary: "Forward along the beam, the drop on both sides.",
       action: "The view moves forward out along the narrow beam, the drop on both sides.",
       calm: "The view moves back along the beam onto the roof.",
       state: "out on the narrow beam over the drop, the street far below on both sides",
+    },
+    {
+      level: 3,
+      label: "Straight down",
+      summary: "Only the street, hundreds of feet below the beam.",
+      action: "The view tilts straight down past the beam until only the street far below, with its tiny cars, fills the frame.",
+      calm: "The view tilts back up along the beam to the skyline.",
+      state: "out on the beam, tilted straight down, only the street far below filling the frame",
+    },
+    {
+      level: 4,
+      label: "The wind",
+      summary: "A hard gust hits the beam. Grit skitters off it and falls.",
+      action: "A hard gust hits the beam and loose grit skitters off it and falls away into the drop.",
+      calm: "The wind dies down.",
+      audio: "A hard gust of wind on a high rooftop, grit scattering.",
+      state: "out on the beam in hard wind, grit blowing off it into the drop",
     },
     {
       level: 5,
@@ -320,6 +322,12 @@ export const FLYING: Ladder = {
         "POV from a window seat in a passenger jet at cruising altitude, the wing and engine outside the window, rows of seat backs and overhead bins ahead, the seatbelt sign above",
     },
   ],
+  // Tested live: things that happen to the whole cabin show (bags spilling,
+  // masks dropping, lights going out, a flash through the window). A sign
+  // lighting up or the wing flexing does not.
+  // Tested live: things that happen to the whole cabin show (bags spilling,
+  // masks dropping, lights going out, a flash through the window). A sign
+  // lighting up, the wing flexing or cloud outside the window does not.
   rungs: [
     {
       level: 0,
@@ -330,59 +338,51 @@ export const FLYING: Ladder = {
     },
     {
       level: 1,
-      label: "Seatbelt sign",
-      summary: "A chime. The sign lights up.",
-      action: "The seatbelt sign lights up with a chime.",
-      calm: "The seatbelt sign goes dark.",
-      audio: "A soft cabin chime over the engine hum.",
-      state: "the seatbelt sign lit",
+      label: "Light chop",
+      summary: "A chime. The cabin starts to shake.",
+      action: "The seatbelt sign lights up and the cabin begins to shake, the wing flexing outside the window.",
+      calm: "The shaking stops.",
+      audio: "A soft cabin chime, then a low rumble and rattling through the cabin.",
+      state: "the seatbelt sign lit, the cabin shaking lightly",
     },
     {
       level: 2,
-      label: "Light chop",
-      summary: "The cabin starts to shake. The wing flexes.",
-      action: "The cabin begins to shake lightly and the wing flexes outside the window.",
-      calm: "The shaking stops.",
-      audio: "A low rumble and rattling through the cabin.",
-      state: "the cabin shaking lightly, the wing flexing outside the window",
+      label: "The drop",
+      summary: "The floor falls away. Bags spill out of the bins.",
+      action: "The cabin lurches downward and bags spill out of the overhead bins onto the floor.",
+      calm: "The cabin levels out.",
+      audio: "Overhead bins banging open and a gasp through the cabin.",
+      state: "the cabin lurching, bags spilled out of the overhead bins",
     },
     {
       level: 3,
-      label: "Into the cloud",
-      summary: "Dark cloud swallows the wing. Rain on the glass.",
-      action: "The window fills with dark grey cloud and rain streaks across the glass.",
-      calm: "The cloud clears from the window.",
-      state: "the window filled with dark grey cloud, rain streaking the glass",
+      label: "Lightning",
+      summary: "A white flash outside. The whole cabin shakes.",
+      action: "Lightning flashes white outside the window and the whole cabin shakes.",
+      audio: "A crack of thunder over the engines.",
+      state: "lightning flashing white outside the window, the cabin shaking",
     },
     {
       level: 4,
-      label: "The drop",
-      summary: "The floor falls away. Bins rattle.",
-      action: "The cabin lurches downward, overhead bins rattle and bags shift.",
-      calm: "The cabin levels out.",
-      audio: "Overhead bins rattling and a gasp through the cabin.",
-      state: "the cabin lurching, overhead bins rattling",
+      label: "The masks",
+      summary: "Yellow oxygen masks drop over every seat.",
+      action: "Yellow oxygen masks drop from the ceiling and dangle over every seat.",
+      calm: "The oxygen masks retract into the ceiling.",
+      audio: "A bang, then a hiss and a chime through the cabin.",
+      state: "yellow oxygen masks dangling from the ceiling over every seat",
     },
     {
       level: 5,
-      label: "Lightning",
-      summary: "A flash in the cloud lights the cabin white.",
-      action: "Lightning flashes in the cloud outside the window, lighting the cabin white.",
-      audio: "A crack of thunder over the engines.",
-      state: "lightning flashing in the cloud outside the window",
-    },
-    {
-      level: 6,
       label: "Lights out",
       summary: "The cabin goes dark. Only the flashes outside.",
-      action: "The cabin lights flicker and go out, leaving only the flashes outside the window.",
+      action: "The cabin lights flicker and go out, leaving the cabin dark except for the window.",
       calm: "The cabin lights come back on.",
       state: "the cabin dark, lit only by flashes outside the window",
     },
   ],
   safePlace: {
     label: "Safe place",
-    action: "The shaking stops, the cloud clears to blue sky and the wing sits steady in sunlight.",
+    action: "The shaking stops, the cabin lights come on bright, the cloud clears and the wing sits steady in sunlight.",
   },
   disruptions: [
     { id: "chime", label: "A chime", minRung: 1, audio: "A cabin chime." },
@@ -415,6 +415,9 @@ export const HORROR: Ladder = {
         "POV in a dark house hallway at night, a flashlight beam on the floorboards, a door standing ajar at the far end, faded wallpaper and a mirror on the wall",
     },
   ],
+  // Every rung is a change you can see from across the room: the light,
+  // the door, the colour of the hall, then something in the doorway.
+  // Tested live: small things (a trembling beam, a shadow, fog) never show.
   rungs: [
     {
       level: 0,
@@ -425,58 +428,65 @@ export const HORROR: Ladder = {
     },
     {
       level: 1,
-      label: "A creak",
-      summary: "Something shifts upstairs.",
-      action: "The flashlight beam trembles slightly.",
-      audio: "A slow creak from the floor above.",
-      state: "the flashlight beam trembling, a creak from the floor above",
+      label: "Lights out",
+      summary: "The light dies. Only a thin flashlight beam is left.",
+      action:
+        "The ceiling light goes out and the hallway goes black, only a thin flashlight beam left on the floor.",
+      calm: "The ceiling light comes back on.",
+      state: "black except for a thin flashlight beam on the floor",
     },
     {
       level: 2,
-      label: "The door moves",
-      summary: "The far door swings open onto darkness.",
-      action: "The door at the far end swings slowly open, revealing darkness.",
-      calm: "The far door drifts shut.",
-      audio: "A long slow creak of old hinges.",
-      state: "the far door hanging open onto darkness",
+      label: "Red light",
+      summary: "Red light floods out of the far doorway and fills the hall.",
+      action: "Red light floods out of the far doorway and fills the whole hallway.",
+      calm: "The red light fades.",
+      state: "lit red by a glow from the far end",
     },
     {
       level: 3,
-      label: "The flashlight flickers",
-      summary: "The beam stutters and dims.",
-      action: "The flashlight flickers and dims, the hallway sinking into shadow.",
-      calm: "The flashlight steadies and brightens.",
-      state: "the flashlight flickering, the hallway in shadow",
+      label: "The door opens",
+      summary: "The far door swings wide open. Red light pours out.",
+      action: "The far door swings wide open and red light pours out of it.",
+      calm: "The far door drifts shut.",
+      audio: "A long slow creak of old hinges.",
+      state: "lit red, the far door standing wide open with red light pouring out",
     },
     {
       level: 4,
-      label: "A shadow",
-      summary: "Something moves in the doorway.",
-      action: "A shadow moves across the open doorway at the far end.",
-      audio: "A floorboard creaking somewhere ahead.",
-      state: "a shadow moving in the far doorway",
+      label: "A face",
+      summary: "A dead white face leans out of the doorway and stares at you.",
+      action:
+        "A dead white face with long black hair leans out of the far doorway and stares down the hallway.",
+      calm: "The face pulls back into the doorway.",
+      audio: "A whisper very close by.",
+      state: "a dead white face with long black hair leaning out of the far doorway, staring",
     },
     {
       level: 5,
-      label: "In the mirror",
-      summary: "A pale face behind you. Then gone.",
-      action: "In the mirror on the wall a pale face appears for a moment, then is gone.",
-      audio: "A whisper very close by.",
-      state: "a pale face flickering in the mirror on the wall",
+      label: "It steps out",
+      summary: "A tall figure in a torn black robe stands in the doorway, facing you.",
+      action:
+        "A tall gaunt figure in a torn black robe steps out of the far doorway, long black hair over a dead white face, and stands still facing down the hallway.",
+      calm: "The figure steps back through the far door and it closes behind it.",
+      audio: "Slow heavy footsteps on old floorboards, then silence.",
+      state: "a tall gaunt figure in a torn black robe standing still in the far doorway, long black hair over a dead white face",
     },
     {
       level: 6,
-      label: "It steps out",
-      summary: "A tall figure stands in the doorway, facing you.",
-      action: "A tall figure steps out of the far doorway and stands still, facing down the hallway.",
-      calm: "The figure steps back into the darkness of the doorway.",
-      audio: "Slow heavy footsteps on old floorboards, then silence.",
-      state: "a tall figure standing still in the far doorway",
+      label: "It comes closer",
+      summary: "It walks toward you, slowly, head tilted, and stops close.",
+      action:
+        "The figure walks slowly down the hallway toward the front of the frame, head tilted, hair over its face.",
+      calm: "The figure turns, walks back down the hallway and out through the far door.",
+      audio: "Slow footsteps on old floorboards, coming closer.",
+      state: "the tall figure in the torn black robe standing close, filling the frame, head tilted, hair over its dead white face",
     },
   ],
   safePlace: {
     label: "Safe place",
-    action: "The hallway lights come on warm and bright and the far door is closed.",
+    action:
+      "The ceiling lights come on warm and bright down the whole hallway and the far door is closed.",
   },
   disruptions: [
     { id: "knock", label: "A knock", minRung: 1, audio: "Three slow knocks from somewhere in the house." },
@@ -531,10 +541,11 @@ export const REJECTION: Ladder = {
     },
     {
       level: 3,
-      label: "Checking the time",
-      summary: "A glance at her watch. A small sigh.",
-      action: "She checks her watch and lets out a small sigh.",
-      state: "checking her watch and sighing",
+      label: "Arms crossed",
+      summary: "A frown. Arms crossed. She leans back in her chair.",
+      action: "She frowns, crosses her arms and leans back in her chair.",
+      calm: "She uncrosses her arms and leans in again.",
+      state: "frowning, arms crossed, leaning back in her chair",
     },
     {
       level: 4,
@@ -591,6 +602,9 @@ export const SPIDERS: Ladder = {
         "POV at a wooden desk in a bright room, a large brown house spider sitting on the desk a hand-width from the keyboard, its legs spread",
     },
   ],
+  // Tested live: the spider climbing, a second spider arriving and the
+  // spider coming at the frame all show. "Closer" pulled the camera back
+  // instead, and a swarm of small spiders never rendered.
   rungs: [
     {
       level: 0,
@@ -609,22 +623,6 @@ export const SPIDERS: Ladder = {
     },
     {
       level: 2,
-      label: "Closer",
-      summary: "It walks to the front edge of the desk.",
-      action: "The spider walks toward the front edge of the desk, closer.",
-      calm: "The spider backs away across the desk.",
-      state: "at the front edge of the desk, close",
-    },
-    {
-      level: 3,
-      label: "Legs up",
-      summary: "The front legs rise.",
-      action: "The spider raises its front legs.",
-      calm: "The spider lowers its legs.",
-      state: "front legs raised",
-    },
-    {
-      level: 4,
       label: "Onto the keyboard",
       summary: "It climbs onto the keys.",
       action: "The spider climbs onto the keyboard.",
@@ -632,10 +630,26 @@ export const SPIDERS: Ladder = {
       state: "standing on the keyboard",
     },
     {
+      level: 3,
+      label: "Another one",
+      summary: "A second spider crawls up over the edge of the desk.",
+      action: "A second big spider crawls up over the far edge of the desk.",
+      calm: "The second spider crawls back over the far edge of the desk and is gone.",
+      state: "a second big spider on the desk beside the first",
+    },
+    {
+      level: 4,
+      label: "Fangs",
+      summary: "It rears up on its back legs, fangs bared.",
+      action: "The spider rears up on its back legs with its fangs bared.",
+      calm: "The spider lowers itself back down.",
+      state: "reared up on its back legs, fangs bared",
+    },
+    {
       level: 5,
       label: "Filling the frame",
       summary: "It walks right up to the front. Huge.",
-      action: "The spider walks right up to the front of the frame until it fills it.",
+      action: "The biggest spider walks straight at the front of the frame until it fills it.",
       calm: "The spider walks back along the desk.",
       state: "right at the front of the frame, filling it",
     },
@@ -670,6 +684,9 @@ export const CLAUSTROPHOBIA: Ladder = {
         "POV inside a small old elevator, its doors closed, scratched metal walls close on every side, a dim ceiling light, a panel of worn buttons",
     },
   ],
+  // Tested live: the red glow, smoke and water all fill the frame and show
+  // at once. "It drops and swings" made the model open the car out into a
+  // corridor, the opposite of small, so the drop is gone.
   rungs: [
     {
       level: 0,
@@ -691,11 +708,11 @@ export const CLAUSTROPHOBIA: Ladder = {
     {
       level: 2,
       label: "Flicker",
-      summary: "The ceiling light stutters.",
-      action: "The ceiling light flickers.",
+      summary: "The ceiling light stutters and dims.",
+      action: "The ceiling light flickers and dims.",
       calm: "The light steadies.",
       audio: "A fluorescent light buzzing and ticking.",
-      state: "the ceiling light flickering",
+      state: "the ceiling light flickering and dim",
     },
     {
       level: 3,
@@ -708,27 +725,29 @@ export const CLAUSTROPHOBIA: Ladder = {
     {
       level: 4,
       label: "The walls",
-      summary: "They creep inward.",
+      summary: "They creep inward. Metal groans.",
       action: "The metal walls creep inward, the space shrinking.",
       calm: "The walls ease back.",
       audio: "Metal groaning under strain.",
-      state: "the walls closer, the space smaller",
+      state: "the walls closer, the space smaller, lit red",
     },
     {
       level: 5,
-      label: "Dust and heat",
-      summary: "Dust falls. The walls sweat.",
-      action: "Dust drifts down from the ceiling and the walls sweat with heat.",
-      state: "dust falling from the ceiling, the walls sweating",
+      label: "Smoke",
+      summary: "Smoke pours in from the ceiling vent and fills the car.",
+      action: "Thick grey smoke pours in through the ceiling vent and fills the elevator.",
+      calm: "The smoke clears out through the vent.",
+      audio: "A hiss from the ceiling vent and a fire alarm far above.",
+      state: "filling with thick grey smoke from the ceiling vent, lit red",
     },
     {
       level: 6,
-      label: "The cables",
-      summary: "It drops and swings.",
-      action: "The elevator drops a few feet and swings, the cables screaming.",
-      calm: "The elevator steadies.",
-      audio: "Cables screaming and the car banging against the shaft.",
-      state: "swinging, the cables straining",
+      label: "Water",
+      summary: "Water pours in through the ceiling and rises.",
+      action: "Water pours in through the ceiling and rises fast across the floor.",
+      calm: "The water drains away through the floor.",
+      audio: "Water gushing and splashing in a metal box.",
+      state: "water pouring in through the ceiling and rising across the floor",
     },
   ],
   safePlace: {
