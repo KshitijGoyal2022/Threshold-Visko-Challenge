@@ -73,8 +73,6 @@ To run a session:
 4. The patient moves the slider as they feel. The therapist clicks steps, types directions, or turns on **Adapt automatically**.
 5. **End session** shows the report on both screens.
 
-If you just want one screen with the console beside the scene, go to `http://localhost:3000/session?fear=horror` (any ladder id from `lib/threshold/ladders.ts` works). Add `&live=0` to run the whole UI on saved frames without spending any credits.
-
 ## Putting it online
 
 It deploys to Vercel as a normal Next.js app. Import the repo, add `REACTOR_API_KEY`, deploy.
