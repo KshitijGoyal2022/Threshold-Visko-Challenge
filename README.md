@@ -22,7 +22,7 @@ A therapist creates a session and gets two links.
 
 The patient opens one and sees their fear as a live scene: a dark auditorium from the lectern, the edge of a roof with no railing, a tarantula on their desk, a woman across a cafe table. They rate how anxious they feel on a 0 to 100 slider, which is the scale therapists already use.
 
-The therapist opens the other link and sees and hears exactly what the patient sees. From there they run the room. They can jump to any step of the fear ladder with one click, type something that isn't in the presets, throw in an interruption like a phone ringing, or restart the scene from its anchor frame if the camera has wandered. Both screens have a Safe place button that backs the room off in one step.
+The therapist opens the other link and sees and hears exactly what the patient sees. From there they run the room. They can jump to any step of the fear ladder with one click, or type something that isn't in the presets. Both screens have a Safe place button that backs the room off in one step.
 
 There's also an automatic mode that follows the rule therapists use: hold a step until anxiety drops to half of its peak, then go harder. If it goes over 85, ease off. It's off by default, so the therapist is always in charge.
 
@@ -127,7 +127,7 @@ The fix was never a longer prompt. It was a shorter one. One action, things alre
 
 Then we walked every fear step by step and kept only what actually showed up. Lighting and colour always do. So does anything that fills the frame: smoke, water, oxygen masks, a crowd laughing. Small things like a trembling flashlight beam, fog or a shadow never made it onto the screen in time. A horror figure needs a real description too. "A tall figure" turned out to be a man in a coat.
 
-After five or six prompts the view starts to wander, so the console has a Pull back button and a Restart scene button for that.
+After five or six prompts the view starts to wander. Typing "The camera pulls back to a wide shot of the whole room" in the direction box usually brings it back, and ending the session and beginning again always does.
 
 Real time video isn't just faster rendering. It's a different kind of interaction, and we had to design around what the model does reliably instead of what we wanted it to do. Once we did, the same recipe worked for seven very different fears.
 

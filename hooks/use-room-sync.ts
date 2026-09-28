@@ -36,7 +36,6 @@ export function useRoomSync(
         rung: session.rung,
         suds: session.suds,
         auto: session.auto,
-        disruptionsOn: session.disruptionsOn,
         anchored: session.anchored,
         note: session.note,
         readings: session.readings.slice(-600),
@@ -84,17 +83,8 @@ export function useRoomSync(
         case "safe":
           session.safePlace();
           break;
-        case "disrupt":
-          session.disrupt();
-          break;
-        case "restart":
-          session.restart();
-          break;
         case "auto":
           session.setAuto(command.on);
-          break;
-        case "disruptions":
-          session.setDisruptionsOn(command.on);
           break;
       }
     };
@@ -165,7 +155,6 @@ export function useRoomSync(
     session.rung,
     session.suds,
     session.auto,
-    session.disruptionsOn,
     session.note,
     session.readings,
     session.history,

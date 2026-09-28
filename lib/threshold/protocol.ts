@@ -13,7 +13,6 @@ export type RoomState = {
   rung: number;
   suds: number;
   auto: boolean;
-  disruptionsOn: boolean;
   anchored: boolean;
   note: string;
   readings: Reading[];
@@ -28,10 +27,7 @@ export type Command =
   | { id: string; type: "jump"; level: number }
   | { id: string; type: "direct"; prompt: string }
   | { id: string; type: "safe" }
-  | { id: string; type: "disrupt" }
-  | { id: string; type: "restart" }
-  | { id: string; type: "auto"; on: boolean }
-  | { id: string; type: "disruptions"; on: boolean };
+  | { id: string; type: "auto"; on: boolean };
 
 /** WebRTC handshake between the two browsers, relayed through the server, so
  *  the console sees and hears exactly what the patient does. */

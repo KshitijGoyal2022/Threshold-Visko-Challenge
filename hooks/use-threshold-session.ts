@@ -26,17 +26,11 @@ export type Phase =
   | "connecting"
   | "starting"
   | "running"
-  | "restarting"
   | "ended";
 
 export type LogEntry = { t: number; text: string };
 
 const ENGINE_TICK_MS = 5_000;
-/** Interruptions: how often the room considers one, and the least time since
- *  the last prompt before it may. Off unless the clinician turns them on. */
-const DISRUPTION_TICK_MS = 20_000;
-const DISRUPTION_MIN_GAP_MS = 12_000;
-const DISRUPTION_CHANCE = 0.5;
 /** A change lands over 2–4 s; prompts are never sent closer than this. */
 const MIN_PROMPT_GAP_MS = 4_000;
 
@@ -70,7 +64,6 @@ export function useThresholdSession({
   const [readings, setReadings] = useState<Reading[]>([]);
   // The clinician drives; automatic adaptation is an opt-in.
   const [auto, setAuto] = useState(false);
-  const [disruptionsOn, setDisruptionsOn] = useState(false);
   const [log, setLog] = useState<LogEntry[]>([]);
   const [history, setHistory] = useState<RungVisit[]>([]);
   const [note, setNote] = useState("Waiting for a first rating.");
@@ -166,21 +159,6 @@ export function useThresholdSession({
     [append, ladder, maxRung, send],
   );
 
-  /** Stop and start again from the photo at the current rung. The world is
-   *  rebuilt, so faces change; only for when the picture has drifted. */
-  const restart = useCallback(async () => {
-    const level = engine.current.rung;
-    append(`Restart from photo at ${level + 1} ${ladder.rungs[level].label}`);
-    setPhase("restarting");
-    if (live) {
-      await orbis.reset();
-      await sleep(800);
-    } else {
-      await sleep(2_000);
-    }
-    setPhase((await startRun(level)) ? "running" : "idle");
-  }, [append, ladder, live, orbis, startRun]);
-
   const safePlace = useCallback(() => {
     const move = planSafe(ladder, engine.current.rung);
     engine.current = enterSafePlace(engine.current, elapsed());
@@ -199,31 +177,6 @@ export function useThresholdSession({
     },
     [append, send],
   );
-
-  /** Throw an interruption without changing rung. */
-  const disrupt = useCallback(
-    (id?: string) => {
-      const eligible = ladder.disruptions.filter(
-        (item) => item.minRung <= engine.current.rung && (!id || item.id === id),
-      );
-      const pick = eligible[Math.floor(Math.random() * eligible.length)];
-      if (!pick) return;
-      append(`Interruption: ${pick.label}${pick.prompt ? ` — "${pick.prompt}"` : ""}`);
-      void send(pick.prompt ?? ladder.rungs[engine.current.rung].action, pick.audio);
-    },
-    [append, ladder, send],
-  );
-
-  useEffect(() => {
-    if (phase !== "running" || !disruptionsOn) return;
-    const timer = setInterval(() => {
-      if (engine.current.safe) return;
-      if (performance.now() - lastPromptAt.current < DISRUPTION_MIN_GAP_MS) return;
-      if (Math.random() > DISRUPTION_CHANCE) return;
-      disrupt();
-    }, DISRUPTION_TICK_MS);
-    return () => clearInterval(timer);
-  }, [disrupt, disruptionsOn, phase]);
 
   /** Feed a rating to the engine and act on its decision. */
   const evaluate = useCallback(
@@ -282,7 +235,6 @@ export function useThresholdSession({
     suds,
     readings,
     auto,
-    disruptionsOn,
     anchored: Boolean(anchor),
     log,
     history,
@@ -295,12 +247,7 @@ export function useThresholdSession({
     end,
     rate,
     setAuto,
-    setDisruptionsOn,
-    disrupt,
     direct,
-    restart: () => void restart(),
-    stepUp: () => jumpTo(engine.current.rung + 1, "Clinician"),
-    stepDown: () => jumpTo(engine.current.rung - 1, "Clinician"),
     jumpTo: (target: number) => jumpTo(target, "Clinician"),
     safePlace,
     toggleMuted: orbis.toggleMuted,

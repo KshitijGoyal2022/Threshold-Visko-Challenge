@@ -30,7 +30,7 @@ export type Rung = {
   calm?: string;
   /** One sentence of sound, only when the rung is a sound event. */
   audio?: string;
-  /** This rung as a standing state, for a restart from the photo. */
+  /** This rung as a standing state, for the opening prompt. */
   state: string;
 };
 
@@ -43,21 +43,12 @@ export type Room = {
   world: string;
 };
 
-export type Disruption = {
-  id: string;
-  label: string;
-  minRung: number;
-  prompt?: string;
-  audio: string;
-};
-
 export type Ladder = {
   id: string;
   title: string;
   rooms: Room[];
   rungs: Rung[];
   safePlace: { label: string; action: string };
-  disruptions: Disruption[];
 };
 
 const CAMERA = "Wide shot, eye-level, static camera.";
@@ -152,42 +143,6 @@ export const PUBLIC_SPEAKING: Ladder = {
     label: "Safe place",
     action: "The audience looks down at their phones and the house lights warm to a soft glow.",
   },
-  disruptions: [
-    {
-      id: "phone",
-      label: "A phone rings",
-      minRung: 1,
-      prompt: "Someone in the middle rows fumbles to silence a ringing phone.",
-      audio: "A phone ringtone in a quiet hall, cut off abruptly.",
-    },
-    {
-      id: "cough",
-      label: "A loud cough",
-      minRung: 1,
-      audio: "A single loud cough echoing in a quiet hall.",
-    },
-    {
-      id: "door",
-      label: "A door slams",
-      minRung: 1,
-      prompt: "Heads in the back rows turn toward a loud bang behind them.",
-      audio: "A heavy door slamming shut, the echo fading.",
-    },
-    {
-      id: "watch",
-      label: "Someone checks the time",
-      minRung: 1,
-      prompt: "A woman in the second row checks her watch and sighs.",
-      audio: "A long sigh in a silent hall.",
-    },
-    {
-      id: "leave-one",
-      label: "Someone leaves",
-      minRung: 2,
-      prompt: "A person on the aisle stands up, picks up their coat and climbs the steps out of the hall.",
-      audio: "A seat flipping up and footsteps climbing hard steps.",
-    },
-  ],
 };
 
 export const HEIGHTS: Ladder = {
@@ -273,40 +228,6 @@ export const HEIGHTS: Ladder = {
     label: "Safe place",
     action: "The view pulls back from the edge onto the roof and tilts up to the calm skyline.",
   },
-  disruptions: [
-    {
-      id: "gust",
-      label: "A gust",
-      minRung: 1,
-      prompt: "A sudden gust of wind sweeps across the roof.",
-      audio: "A sudden gust of wind on a high rooftop.",
-    },
-    {
-      id: "siren",
-      label: "A siren far below",
-      minRung: 1,
-      audio: "A siren wailing far below in the streets, thin with distance.",
-    },
-    {
-      id: "pigeon",
-      label: "A pigeon drops off the edge",
-      minRung: 1,
-      prompt: "A pigeon at the roof edge launches off and drops out of sight.",
-      audio: "A flurry of wings, then wind.",
-    },
-    {
-      id: "helicopter",
-      label: "A helicopter passes",
-      minRung: 2,
-      audio: "A helicopter thudding past below, fading.",
-    },
-    {
-      id: "creak",
-      label: "The beam creaks",
-      minRung: 4,
-      audio: "A sharp metallic creak from the beam.",
-    },
-  ],
 };
 
 
@@ -384,23 +305,6 @@ export const FLYING: Ladder = {
     label: "Safe place",
     action: "The shaking stops, the cabin lights come on bright, the cloud clears and the wing sits steady in sunlight.",
   },
-  disruptions: [
-    { id: "chime", label: "A chime", minRung: 1, audio: "A cabin chime." },
-    { id: "baby", label: "A baby cries", minRung: 1, audio: "A baby crying a few rows back." },
-    {
-      id: "bin",
-      label: "A bin pops open",
-      minRung: 2,
-      prompt: "An overhead bin pops open and a bag slides out.",
-      audio: "A bin latch snapping open and a bag thudding down.",
-    },
-    {
-      id: "engine",
-      label: "The engine note changes",
-      minRung: 2,
-      audio: "The engine pitch dropping suddenly, then whining back up.",
-    },
-  ],
 };
 
 export const HORROR: Ladder = {
@@ -488,18 +392,6 @@ export const HORROR: Ladder = {
     action:
       "The ceiling lights come on warm and bright down the whole hallway and the far door is closed.",
   },
-  disruptions: [
-    { id: "knock", label: "A knock", minRung: 1, audio: "Three slow knocks from somewhere in the house." },
-    { id: "whisper", label: "A whisper", minRung: 2, audio: "A whisper close behind, words too soft to make out." },
-    { id: "steps", label: "Footsteps above", minRung: 1, audio: "Footsteps crossing the floor above, then stopping." },
-    {
-      id: "slam",
-      label: "A door slams",
-      minRung: 2,
-      prompt: "The far door slams shut.",
-      audio: "A door slamming hard, the echo dying in the house.",
-    },
-  ],
 };
 
 export const REJECTION: Ladder = {
@@ -577,17 +469,6 @@ export const REJECTION: Ladder = {
     label: "Safe place",
     action: "She sits back down, smiles and picks up her coffee.",
   },
-  disruptions: [
-    {
-      id: "buzz",
-      label: "Her phone buzzes",
-      minRung: 1,
-      prompt: "Her phone buzzes on the table and she glances at it.",
-      audio: "A phone buzzing against a wooden table.",
-    },
-    { id: "laugh", label: "A laugh nearby", minRung: 1, audio: "A burst of laughter from another table." },
-    { id: "order", label: "An order is called", minRung: 1, audio: "A barista calling out an order over the espresso machine." },
-  ],
 };
 
 export const SPIDERS: Ladder = {
@@ -665,11 +546,6 @@ export const SPIDERS: Ladder = {
     label: "Safe place",
     action: "The spider turns and walks away across the desk to the far wall.",
   },
-  disruptions: [
-    { id: "twitch", label: "A leg twitches", minRung: 0, prompt: "One of the spider legs twitches.", audio: "Silence." },
-    { id: "fly", label: "A fly lands", minRung: 1, prompt: "A fly lands on the desk near the spider.", audio: "A fly buzzing, then landing." },
-    { id: "hide", label: "It hides", minRung: 2, prompt: "The spider darts under a sheet of paper on the desk.", audio: "A faint scuttle on wood." },
-  ],
 };
 
 export const CLAUSTROPHOBIA: Ladder = {
@@ -754,12 +630,6 @@ export const CLAUSTROPHOBIA: Ladder = {
     label: "Safe place",
     action: "The light comes on bright, the elevator hums and the doors slide open onto a wide bright lobby.",
   },
-  disruptions: [
-    { id: "creak", label: "A creak", minRung: 1, audio: "A long metallic creak from above." },
-    { id: "bell", label: "The alarm bell", minRung: 1, audio: "An old alarm bell ringing, then stopping." },
-    { id: "intercom", label: "The intercom", minRung: 1, audio: "A crackling intercom voice, too distorted to understand." },
-    { id: "buttons", label: "The buttons flicker", minRung: 2, prompt: "The button panel flickers and goes dark.", audio: "An electrical click." },
-  ],
 };
 
 export const LADDERS: Ladder[] = [PUBLIC_SPEAKING, HEIGHTS, FLYING, HORROR, REJECTION, SPIDERS, CLAUSTROPHOBIA];

@@ -15,8 +15,6 @@ export type ConsoleState = {
   readings: Reading[];
   note: string;
   auto: boolean;
-  disruptionsOn: boolean;
-  anchored: boolean;
   log: { t: number; text: string }[];
   error?: string;
 };
@@ -25,20 +23,11 @@ export type ConsoleActions = {
   /** Resolves once the server has the direction; rejects if it did not. */
   direct: (prompt: string) => Promise<void> | void;
   jumpTo: (level: number) => void;
-  stepUp: () => void;
-  stepDown: () => void;
   safePlace: () => void;
-  disrupt: () => void;
-  restart: () => void;
   setAuto: (on: boolean) => void;
-  setDisruptions: (on: boolean) => void;
 };
 
 type SendStatus = "idle" | "sending" | "sent" | "failed";
-
-/** Orbis drifts toward faces over time. This is the cheapest correction: one
- *  camera action, no restart, the same people. */
-const PULL_BACK = "The camera pulls back to a wide, static shot of the whole audience.";
 
 export function Console({
   ladder,
@@ -88,16 +77,6 @@ export function Console({
             onClick={() => actions.setAuto(!state.auto)}
           />
         </div>
-        <div className="toggle">
-          <span>Interruptions</span>
-          <button
-            className="switch"
-            role="switch"
-            aria-checked={state.disruptionsOn}
-            aria-label="Interruptions"
-            onClick={() => actions.setDisruptions(!state.disruptionsOn)}
-          />
-        </div>
       </section>
 
       <section className="rail-section">
@@ -122,37 +101,6 @@ export function Console({
       <section className="rail-section">
         <h3>Anxiety</h3>
         <AnxietyChart readings={state.readings} />
-      </section>
-
-      <section className="rail-section">
-        <h3>Interrupt</h3>
-        <button className="wide" disabled={!running} onClick={actions.disrupt}>
-          Throw an interruption
-        </button>
-      </section>
-
-      <section className="rail-section">
-        <h3>If the picture drifts</h3>
-        <div className="controls-row two">
-          <button
-            className="ghost"
-            disabled={!running}
-            title="Asks for the wide shot back without restarting. Same people, same room."
-            onClick={() => void actions.direct(PULL_BACK)}
-          >
-            Pull back
-          </button>
-          {state.anchored && (
-            <button
-              className="ghost"
-              disabled={!running}
-              title="Starts the scene again from its anchor frame. The people will look different."
-              onClick={actions.restart}
-            >
-              Restart scene
-            </button>
-          )}
-        </div>
       </section>
 
       <section className="rail-section">

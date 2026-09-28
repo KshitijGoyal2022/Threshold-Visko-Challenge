@@ -223,20 +223,13 @@ export function TherapistView({ ladder, code }: { ladder: Ladder; code: string }
             readings: state?.readings ?? [],
             note: state?.note ?? "Waiting for the patient.",
             auto: state?.auto ?? false,
-            disruptionsOn: state?.disruptionsOn ?? false,
-            anchored: state?.anchored ?? false,
             log: state?.log ?? [],
           }}
           actions={{
             jumpTo: (level) => send({ type: "jump", level }),
-            stepUp: () => send({ type: "jump", level: (state?.rung ?? 0) + 1 }),
-            stepDown: () => send({ type: "jump", level: (state?.rung ?? 0) - 1 }),
             safePlace: () => send({ type: "safe" }),
-            disrupt: () => send({ type: "disrupt" }),
-            restart: () => send({ type: "restart" }),
             direct: (prompt) => send({ type: "direct", prompt }),
             setAuto: (on) => send({ type: "auto", on }),
-            setDisruptions: (on) => send({ type: "disruptions", on }),
           }}
         />
       </aside>

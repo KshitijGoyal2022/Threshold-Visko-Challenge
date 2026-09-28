@@ -112,7 +112,7 @@ export function SessionView({ ladder, roomId, live, anchorUrl, code = null, clea
               {railOpen ? "Hide console" : "Console"}
             </button>
           )}
-          {!shared && (running || session.phase === "restarting") && (
+          {!shared && running && (
             <button onClick={() => void session.end()}>End session</button>
           )}
         </div>
@@ -153,14 +153,6 @@ export function SessionView({ ladder, roomId, live, anchorUrl, code = null, clea
               <div>
                 <div className="breath-ring" />
                 <p>{session.phase === "connecting" ? "Connecting…" : "Building the room…"}</p>
-              </div>
-            </div>
-          )}
-          {session.phase === "restarting" && (
-            <div className="breath">
-              <div>
-                <div className="breath-ring" />
-                <p>Restarting from the photo…</p>
               </div>
             </div>
           )}
@@ -212,21 +204,14 @@ export function SessionView({ ladder, roomId, live, anchorUrl, code = null, clea
               readings: session.readings,
               note: session.note,
               auto: session.auto,
-              disruptionsOn: session.disruptionsOn,
-              anchored: session.anchored,
               log: session.log,
               error: session.error || undefined,
             }}
             actions={{
               jumpTo: session.jumpTo,
-              stepUp: session.stepUp,
-              stepDown: session.stepDown,
               safePlace: session.safePlace,
-              disrupt: () => session.disrupt(),
-              restart: session.restart,
               direct: session.direct,
               setAuto: session.setAuto,
-              setDisruptions: session.setDisruptionsOn,
             }}
           />
         </aside>
