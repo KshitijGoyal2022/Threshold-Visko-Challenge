@@ -6,7 +6,7 @@ Built for the Visko Orbis Online Challenge.
 
 **Try it:** <https://threshold-visko-challenge.vercel.app/>
 
-Pick a fear, create a session, and open the two links on two screens (or two tabs). Live sessions run on our Orbis credits while they last, so if the patient screen says live sessions are switched off, add `&live=0` to the link to walk through the app on saved frames instead.
+Pick a fear, create a session, and open the two links on two screens (or two tabs). Live sessions run on our Orbis credits while they last.
 
 ## Why we built it
 
