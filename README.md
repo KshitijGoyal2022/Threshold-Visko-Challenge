@@ -4,6 +4,10 @@ Threshold turns the thing you're scared of into a live scene. Visko Orbis genera
 
 Built for the Visko Orbis Online Challenge.
 
+**Try it:** <https://threshold-visko-challenge.vercel.app/>
+
+Pick a fear, create a session, and open the two links on two screens (or two tabs). Live sessions run on our Orbis credits while they last, so if the patient screen says live sessions are switched off, add `&live=0` to the link to walk through the app on saved frames instead.
+
 ## Why we built it
 
 About 301 million people have an anxiety disorder, and only one in four of them get any treatment. The treatment that works best for phobias is exposure therapy. Around 80 to 90% of people get better with it, and yet only 10 to 30% of therapists actually use it.
