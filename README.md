@@ -71,6 +71,14 @@ To run a session:
 
 If you just want one screen with the console beside the scene, go to `http://localhost:3000/session?fear=horror` (any ladder id from `lib/threshold/ladders.ts` works). Add `&live=0` to run the whole UI on saved frames without spending any credits.
 
+## Putting it online
+
+It deploys to Vercel as a normal Next.js app. Import the repo, add `REACTOR_API_KEY`, deploy.
+
+Two screen sessions need one more thing there. Locally the rooms live in memory, which is fine for one server. On Vercel there can be several, so add the **Upstash for Redis** integration from the Vercel marketplace. It sets `KV_REST_API_URL` and `KV_REST_API_TOKEN`, and the app switches to shared rooms on its own. Without it the one screen mode still works.
+
+Every visitor who starts a session spends your Reactor credits, so there's a kill switch. Set `THRESHOLD_LIVE=off` in the Vercel environment and the app stops minting Orbis sessions right away. Everything else keeps working, including the saved frame mode.
+
 ## How it's built
 
 There are four parts.

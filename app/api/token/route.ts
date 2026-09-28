@@ -4,6 +4,15 @@ const REACTOR_API_URL = "https://api.reactor.inc";
 const MODEL_NAME = "reactor/visko-orbis-stable";
 
 export async function POST() {
+  // Kill switch for a public deployment: set THRESHOLD_LIVE=off in the host's
+  // environment and no more Orbis sessions get minted, without a redeploy.
+  if (process.env.THRESHOLD_LIVE === "off") {
+    return NextResponse.json(
+      { error: "Live sessions are switched off for now." },
+      { status: 503 },
+    );
+  }
+
   const apiKey = process.env.REACTOR_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
